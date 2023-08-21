@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Ensi\LaravelServeStoplight\ServeStoplightServiceProvider::class,
 
         /*
          * Application Service Providers...

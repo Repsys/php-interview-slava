@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+    nginx:
+        build:
+            context: .
+            target: nginx
+        restart: on-failure
+        volumes:
+            - ./public:/var/www/html/public
+            - ./docker/local/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - app-net
+        depends_on:
+            - php-fpm
+        ports:
+            - '8099:80'
+
+    php-fpm:
+        build:
+            context: .
+            target: php_fpm
+        restart: on-failure
+        user: root
+        volumes:
+            - ./:/var/www/html
+            - ./docker/local/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+        networks:
+            - app-net
+        depends_on:
+            - postgres
+            - redis
+
+    queue-worker:
+        build:
+            context: .
+            target: php_cli
+        restart: on-failure
+        user: root
+#        command: php artisan horizon
+        command: php artisan queue:listen --timeout=0 --queue=default
+        volumes:
+            - ./:/var/www/html
+            - ./docker/local/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+        networks:
+            - app-net
+        depends_on:
+            - php-fpm
+
+    postgres:
+        image: postgres:12.7
+        restart: on-failure
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        networks:
+            - app-net
+        ports:
+            - '5445:5432'
+
+    redis:
+        image: bitnami/redis:7.0.5
+        restart: on-failure
+        environment:
+            REDIS_PASSWORD: ${REDIS_PASSWORD}
+        volumes:
+            - redis-data:/bitnami/redis/data
+        networks:
+            - app-net
+        ports:
+            - '6385:6379'
+
+networks:
+    app-net:
+        driver: bridge
+
+volumes:
+    postgres-data:
+    redis-data:

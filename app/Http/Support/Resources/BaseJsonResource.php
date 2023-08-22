@@ -2,6 +2,7 @@
 
 namespace App\Http\Support\Resources;
 
+use App\Http\Support\Pagination\Page;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,5 +15,10 @@ abstract class BaseJsonResource extends JsonResource
         $append = ['meta' => ['pagination' => $pagination]];
 
         return $collection->additional(array_merge_recursive($currentAdditional, $append));
+    }
+
+    public static function collectPage(Page $page): AnonymousResourceCollection
+    {
+        return static::collectionWithPagination($page->items, $page->pagination);
     }
 }

@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
             }
 
             if ($e instanceof BusinessErrorException) {
-                JResponse::error($e->getMessage(), $e->getErrors(), $e->getCode());
+                return JResponse::error($e->getMessage(), $e->getErrors(), $e->getCode());
             }
         }
 

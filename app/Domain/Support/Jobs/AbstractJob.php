@@ -2,6 +2,7 @@
 
 namespace App\Domain\Support\Jobs;
 
+use App\Console\Support\ConsolePrinter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,7 +12,7 @@ use Throwable;
 
 abstract class AbstractJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ConsolePrinter;
 
     public function handle(): void
     {

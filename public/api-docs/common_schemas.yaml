@@ -1,0 +1,218 @@
+IdObject:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: id
+      example: 1
+
+MultipartFileUploadRequest:
+  type: object
+  properties:
+    file:
+      type: string
+      format: binary
+      description: Загружаемый файл
+
+PaginationTypeCursorEnum:
+  type: string
+  description: >
+    * Pagination types:
+    * `cursor` - Пагинация используя cursor
+  enum:
+    - cursor
+
+PaginationTypeOffsetEnum:
+  type: string
+  description: >
+    * Pagination types:
+    * `offset` - Пагинация используя offset
+  enum:
+    - offset
+
+PaginationTypeEnum:
+  type: string
+  description: >
+    Pagination types:
+    * `cursor` - Пагинация используя cursor
+    * `offset` - Пагинация используя offset
+  enum:
+    - cursor
+    - offset
+
+EmptyDataResponse:
+  type: object
+  properties:
+    data:
+      type: object
+      nullable: true
+  required:
+    - data
+
+RequestBodySort:
+  type: array
+
+RequestBodyInclude:
+  type: array
+
+RequestBodyCursorPagination:
+  type: object
+  title: cursor
+  properties:
+    cursor:
+      type: string
+      example: "eyJpZCI6MTAsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+    limit:
+      type: integer
+      example: 10
+    type:
+      description: Тип пагинации
+      allOf:
+        - type: string
+        - $ref: '#/PaginationTypeCursorEnum'
+
+RequestBodyOffsetPagination:
+  type: object
+  title: offset
+  properties:
+    limit:
+      type: integer
+      example: 10
+    offset:
+      type: integer
+      example: 0
+    type:
+      description: Тип пагинации
+      allOf:
+        - type: string
+        - $ref: '#/PaginationTypeOffsetEnum'
+
+RequestBodyPagination:
+  oneOf:
+    - $ref: '#/RequestBodyOffsetPagination'
+    - $ref: '#/RequestBodyCursorPagination'
+
+RequestBodySearch:
+  type: object
+  properties:
+    sort:
+      $ref: '#/RequestBodySort'
+    include:
+      $ref: '#/RequestBodyInclude'
+    pagination:
+      $ref: '#/RequestBodyPagination'
+
+RequestBodyAudit:
+  type: object
+  properties:
+    audit:
+      type: object
+      description: Данные для аудита изменений
+      properties:
+        user_id:
+          type: integer
+          description: Идентификатор пользователя
+          example: 1253
+
+ResponseBodyPagination:
+  oneOf:
+    - $ref: '#/ResponseBodyOffsetPagination'
+    - $ref: '#/ResponseBodyCursorPagination'
+
+ResponseBodyCursorPagination:
+  type: object
+  title: cursor
+  properties:
+    cursor:
+      type: string
+      example: "eyJpZCI6MTAsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+      nullable: true
+    limit:
+      type: integer
+      example: 10
+    next_cursor:
+      type: string
+      example: "eyJpZCI6MTAsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+      nullable: true
+    previous_cursor:
+      type: string
+      example: "eyJpZCI6MTAsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0"
+      nullable: true
+    type:
+      description: Тип пагинации
+      allOf:
+        - type: string
+        - $ref: '#/PaginationTypeCursorEnum'
+
+ResponseBodyOffsetPagination:
+  type: object
+  title: offset
+  properties:
+    limit:
+      type: integer
+      example: 10
+    offset:
+      type: integer
+      example: 0
+    total:
+      type: integer
+      example: 345
+    type:
+      description: Тип пагинации
+      allOf:
+        - type: string
+        - $ref: '#/PaginationTypeOffsetEnum'
+
+File:
+  type: object
+  nullable: true
+  properties:
+    path:
+      type: string
+      description: Путь до файла относительно корня диска домена
+      example: "attachments/48/2f/image.png"
+    root_path:
+      type: string
+      description: Путь до файла относительно корня физического диска ensi
+      example: "protected/domain/attachments/48/2f/image.png"
+    url:
+      type: string
+      description: Ссылка для скачивания файла
+      example: "https://es-public.project.ru/domain/attachments/48/2f/image.png"
+
+MassOperationResult:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        processed:
+          type: array
+          items:
+            type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Идентификатор объекта
+                example: 122
+              message:
+                type: string
+                description: Текст сообщения об ошибке
+                example: Недостаточно прав
+
+PreloadFile:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        preload_file_id:
+          type: integer
+          description: Идентификатор загруженного файла
+          example: 2032
+        file:
+          $ref: '#/File'

@@ -1,0 +1,13 @@
+type: string
+description: >
+  Статус импорта ExcelFile:
+    * `new` - Новый
+    * `running` - В процессе импорта
+    * `completed` - Завершен
+    * `error` - Ошибка
+enum:
+  - new
+  - running
+  - completed
+  - error
+example: new

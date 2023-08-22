@@ -1,0 +1,126 @@
+ExcelFileReadonlyProperties:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Идентификатор
+      example: 1
+    path:
+      description: Полный путь к файлу
+      type: string
+      example: "import/excel/kfrEZUt9hxQzZwKiV70S4FZgWsSsqnye651lUggg.xlsx"
+    original_name:
+      type: string
+      description: Название файла
+      example: "sheet"
+    imported_count:
+      type: integer
+      description: Кол-во импортированных записей (обновляется только при остановке или завершении импорте)
+      example: 0
+    imported_count_dynamic:
+      type: integer
+      description: Кол-во экспортированных записей за всё время (Обновляется в реальном времени)
+      example: 0
+    status:
+      $ref: '../enums/excel_file_status_enum.yaml'
+    error_message:
+      type: string
+      nullable: true
+      description: Сообщение об ошибке (при status = error)
+      example: null
+    created_at:
+      description: Дата создания
+      format: date-time
+      type: string
+      example: "2022-09-01T15:47:21.000000Z"
+    updated_at:
+      description: Дата обновления
+      format: date-time
+      type: string
+      example: "2022-09-01T15:47:21.000000Z"
+  required:
+    - id
+    - path
+    - original_name
+    - imported_count
+    - imported_count_dynamic
+    - status
+    - error_message
+    - created_at
+    - updated_at
+
+ExcelFile:
+  allOf:
+    - $ref: '#/ExcelFileReadonlyProperties'
+
+CreateExcelFileRequest:
+  type: object
+  properties:
+    file:
+      type: string
+      format: binary
+      description: Загружаемый файл до 10 МБ
+  required:
+    - file
+
+SearchExcelFilesFilter:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Идентификатор
+      example: 1
+    original_name:
+      type: string
+      description: Название файла
+      example: ""
+    original_name_like:
+      type: string
+      description: Название файла (частично)
+      example: ""
+    status:
+      $ref: '../enums/excel_file_status_enum.yaml'
+
+SearchExcelFilesInclude:
+  type: array
+  description: Подгружаемые связанные сущности
+  items:
+    type: string
+    enum:
+  example:
+
+SearchExcelFilesRequest:
+  type: object
+  properties:
+    sort:
+      $ref: '../../index.yaml#/components/schemas/RequestBodySort'
+    filter:
+      $ref: '#/SearchExcelFilesFilter'
+    include:
+      $ref: '#/SearchExcelFilesInclude'
+    pagination:
+      $ref: '../../index.yaml#/components/schemas/RequestBodyPagination'
+
+SearchExcelFilesResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/ExcelFile'
+    meta:
+      type: object
+      properties:
+        pagination:
+          $ref: '../../index.yaml#/components/schemas/ResponseBodyPagination'
+  required:
+    - data
+    - meta
+
+ExcelFileResponse:
+  type: object
+  properties:
+    data:
+      $ref: '#/ExcelFile'
+  required:
+    - data

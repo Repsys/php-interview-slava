@@ -1,0 +1,16 @@
+Error:
+  type: string
+
+ErrorResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      description: Текст основной ошибки
+    errors:
+      type: array
+      description: Массив ошибок валидации (ключ-значение)
+      items:
+        $ref: '#/Error'
+  required:
+    - message

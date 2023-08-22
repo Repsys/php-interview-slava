@@ -1,0 +1,96 @@
+RowReadonlyProperties:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Идентификатор
+      example: 1
+    name:
+      description: Имя
+      type: string
+      example: "name"
+    date:
+      description: Дата
+      format: date-time
+      type: string
+      example: "2022-09-01T15:47:21.000000Z"
+    created_at:
+      description: Дата создания
+      format: date-time
+      type: string
+      example: "2022-09-01T15:47:21.000000Z"
+    updated_at:
+      description: Дата обновления
+      format: date-time
+      type: string
+      example: "2022-09-01T15:47:21.000000Z"
+  required:
+    - id
+    - name
+    - date
+    - created_at
+    - updated_at
+
+Row:
+  allOf:
+    - $ref: '#/RowReadonlyProperties'
+
+SearchRowsFilter:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Идентификатор
+      example: 1
+    name:
+      type: string
+      description: Имя
+      example: ""
+    name_like:
+      type: string
+      description: Имя (частично)
+      example: ""
+
+SearchRowsInclude:
+  type: array
+  description: Подгружаемые связанные сущности
+  items:
+    type: string
+    enum:
+  example:
+
+SearchRowsRequest:
+  type: object
+  properties:
+    sort:
+      $ref: '../../index.yaml#/components/schemas/RequestBodySort'
+    filter:
+      $ref: '#/SearchRowsFilter'
+    include:
+      $ref: '#/SearchRowsInclude'
+    pagination:
+      $ref: '../../index.yaml#/components/schemas/RequestBodyPagination'
+
+SearchRowsResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Row'
+    meta:
+      type: object
+      properties:
+        pagination:
+          $ref: '../../index.yaml#/components/schemas/ResponseBodyPagination'
+  required:
+    - data
+    - meta
+
+RowResponse:
+  type: object
+  properties:
+    data:
+      $ref: '#/Row'
+  required:
+    - data

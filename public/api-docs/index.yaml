@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Interview API
+  version: 1.0.0
+  description: Interview API
+servers:
+  - url: /api
+tags:
+  - name: excel_files
+    description: Excel Files
+  - name: rows
+    description: Rows
+
+paths:
+  /import/excel-files:
+    $ref: './import/paths.yaml#/ExcelFiles'
+  /import/excel-files/{id}:
+    $ref: './import/paths.yaml#/ExcelFilesCurrent'
+  /import/excel-files/{id}:retry-import:
+    $ref: './import/paths.yaml#/ExcelFilesRetryImport'
+  /import/excel-files:search:
+    $ref: './import/paths.yaml#/ExcelFilesSearch'
+
+  /import/rows/{id}:
+    $ref: './import/paths.yaml#/RowsCurrent'
+  /import/rows:search:
+    $ref: './import/paths.yaml#/RowsSearch'
+
+components:
+  parameters:
+    QueryInclude:
+      $ref: './common_parameters.yaml#/QueryInclude'
+    PathId:
+      $ref: './common_parameters.yaml#/PathId'
+
+  schemas:
+    PaginationTypeEnum:
+      $ref: './common_schemas.yaml#/PaginationTypeEnum'
+    EmptyDataResponse:
+      $ref: './common_schemas.yaml#/EmptyDataResponse'
+    RequestBodySort:
+      $ref: './common_schemas.yaml#/RequestBodySort'
+    RequestBodyInclude:
+      $ref: './common_schemas.yaml#/RequestBodyInclude'
+    RequestBodyPagination:
+      $ref: './common_schemas.yaml#/RequestBodyPagination'
+    ResponseBodyPagination:
+      $ref: './common_schemas.yaml#/ResponseBodyPagination'
+
+    ExcelFileStatusEnum:
+      $ref: './import/enums/excel_file_status_enum.yaml'
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: './errors.yaml#/ErrorResponse'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: './errors.yaml#/ErrorResponse'
+    ServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: './errors.yaml#/ErrorResponse'
+    AccessDenied:
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: './errors.yaml#/ErrorResponse'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: './errors.yaml#/ErrorResponse'
+
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+security:
+  - basicAuth: [ ]

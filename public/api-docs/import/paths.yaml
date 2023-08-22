@@ -1,0 +1,179 @@
+ExcelFiles:
+  post:
+    tags:
+      - excel_files
+    operationId: createExcelFileFromFile
+    summary: Создание ExcelFile
+    description: Создание ExcelFile (Загрузка)
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: './schemas/excel_files.yaml#/CreateExcelFileRequest'
+    responses:
+      "201":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/excel_files.yaml#/ExcelFileResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+ExcelFilesCurrent:
+  get:
+    tags:
+      - excel_files
+    operationId: getExcelFile
+    summary: Получение ExcelFile
+    description: Получение ExcelFile
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+      - $ref: '../index.yaml#/components/parameters/QueryInclude'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/excel_files.yaml#/ExcelFileResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - excel_files
+    operationId: deleteExcelFile
+    summary: Удаление ExcelFile
+    description: Удаление ExcelFile
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: '../index.yaml#/components/schemas/EmptyDataResponse'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+ExcelFilesRetryImport:
+  post:
+    tags:
+      - excel_files
+    operationId: retryImportExcelFile
+    summary: Повторить импорт ExcelFile
+    description: Повторить импорт ExcelFile (При статусе error)
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: '../index.yaml#/components/schemas/EmptyDataResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+ExcelFilesSearch:
+  post:
+    tags:
+      - excel_files
+    operationId: searchExcelFiles
+    summary: Поиск ExcelFile
+    description: Поиск ExcelFile
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/excel_files.yaml#/SearchExcelFilesRequest'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/excel_files.yaml#/SearchExcelFilesResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+
+
+RowsCurrent:
+  get:
+    tags:
+      - rows
+    operationId: getRow
+    summary: Получение Row
+    description: Получение Row
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+      - $ref: '../index.yaml#/components/parameters/QueryInclude'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/rows.yaml#/RowResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+  delete:
+    tags:
+      - rows
+    operationId: deleteRow
+    summary: Удаление Row
+    description: Удаление Row
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: '../index.yaml#/components/schemas/EmptyDataResponse'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+RowsSearch:
+  post:
+    tags:
+      - rows
+    operationId: searchRows
+    summary: Поиск Row
+    description: Поиск Row
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/rows.yaml#/SearchRowsRequest'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/rows.yaml#/SearchRowsResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+

@@ -25,6 +25,8 @@ paths:
     $ref: './import/paths.yaml#/RowsCurrent'
   /import/rows:search:
     $ref: './import/paths.yaml#/RowsSearch'
+  /import/rows:group:
+    $ref: './import/paths.yaml#/RowsGroup'
 
 components:
   parameters:

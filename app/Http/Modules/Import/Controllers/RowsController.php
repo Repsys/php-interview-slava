@@ -3,8 +3,11 @@
 namespace App\Http\Modules\Import\Controllers;
 
 use App\Domain\Import\Actions\Rows\DeleteRowAction;
+use App\Domain\Import\Models\Row;
 use App\Http\Controllers\Controller;
 use App\Http\Modules\Import\Queries\RowsQuery;
+use App\Http\Modules\Import\Resources\RowGroupResource;
+use App\Http\Modules\Import\Resources\RowGroupsResource;
 use App\Http\Modules\Import\Resources\RowResource;
 use App\Http\Support\Pagination\PageBuilderFactory;
 use App\Http\Support\Resources\EmptyResource;
@@ -28,5 +31,12 @@ class RowsController extends Controller
         return RowResource::collectPage(
             $pageBuilderFactory->fromQuery($query)->build()
         );
+    }
+
+    public function group(): RowGroupsResource
+    {
+        $rows = Row::orderBy('date')->get();
+
+        return RowGroupsResource::make($rows);
     }
 }

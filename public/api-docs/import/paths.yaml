@@ -177,3 +177,21 @@ RowsSearch:
         $ref: '../index.yaml#/components/responses/ServerError'
 
 
+RowsGroup:
+  post:
+    tags:
+      - rows
+    operationId: groupRows
+    summary: Получить группы Row
+    description: Получить группы Row (по date)
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/rows.yaml#/GroupRowsResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'

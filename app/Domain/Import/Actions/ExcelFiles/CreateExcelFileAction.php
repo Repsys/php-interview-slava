@@ -41,7 +41,8 @@ class CreateExcelFileAction
         $headers = $excelFile->openExcelReader()->getHeaders();
 
         if (!empty(array_diff(['id', 'name', 'date'], $headers))) {
-            throw new BusinessErrorException("Headers (id, name, date) are not represented in excel file");
+            Storage::disk('local')->delete($excelFile->path);
+            throw new BusinessErrorException("Some headers (id, name, date) are not represented in excel file");
         }
     }
 }

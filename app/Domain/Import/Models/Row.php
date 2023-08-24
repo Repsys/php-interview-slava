@@ -2,6 +2,7 @@
 
 namespace App\Domain\Import\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name
- * @property string $date
+ * @property Carbon $date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Row newModelQuery()
@@ -24,6 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Row extends Model
 {
+    protected $fillable = [
+        'name',
+        'date'
+    ];
+
     protected $casts = [
         'date' => 'date:d.m.Y'
     ];

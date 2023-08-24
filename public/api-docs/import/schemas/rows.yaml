@@ -94,3 +94,15 @@ RowResponse:
       $ref: '#/Row'
   required:
     - data
+
+GroupRowsResponse:
+  type: object
+  properties:
+    data:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: "#/Row"
+  required:
+    - data

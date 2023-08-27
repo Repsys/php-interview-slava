@@ -19,6 +19,7 @@
     ```
 3. Перейти по адресу http://localhost:8099/docs/oas
 4. Слева две раскрывающихся группы апих: `excel_files` и `rows`
+5. Basic auth - admin : Dfg9hf93fSfsed2
 
 
 ### Описание ТЗ
